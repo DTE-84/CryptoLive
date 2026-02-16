@@ -50,7 +50,14 @@ async function getHoldings() {
     const data = await fs.readFile(HOLDINGS_FILE, "utf-8");
     return JSON.parse(data);
   } catch (err) {
-    return { bitcoin: 0, ethereum: 0, solana: 0, cardano: 0, polkadot: 0 };
+    // If file doesn't exist, return seed data so dashboard isn't empty on first run
+    return { 
+      bitcoin: 0.25, 
+      ethereum: 1.5, 
+      solana: 12.0, 
+      cardano: 500, 
+      polkadot: 25 
+    };
   }
 }
 
