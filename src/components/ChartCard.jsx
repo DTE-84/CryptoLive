@@ -1,5 +1,9 @@
 // src/components/ChartCard.jsx
+import PriceChart from "./PriceChart";
+import useCoinHistory from "../hooks/useCoinHistory";
+
 export default function ChartCard({ coinId, price, priceChange, qty, onQtyChange }) {
+  const { history, loading: historyLoading } = useCoinHistory(coinId);
   const holdingsValue = (qty * (price || 0)).toLocaleString(undefined, { minimumFractionDigits: 2 });
   const isPositive = priceChange >= 0;
 
@@ -19,6 +23,17 @@ export default function ChartCard({ coinId, price, priceChange, qty, onQtyChange
             {isPositive ? "+" : ""}{priceChange?.toFixed(2)}%
           </span>
         </div>
+      </div>
+
+      {/* Sparkline Chart */}
+      <div className="mb-8 relative z-10 h-24">
+        {historyLoading ? (
+          <div className="h-full w-full bg-white/5 rounded-xl animate-pulse flex items-center justify-center">
+            <span className="text-[8px] font-black text-gray-600 uppercase tracking-widest">Generating_Graph...</span>
+          </div>
+        ) : (
+          <PriceChart history={history} isPositive={isPositive} />
+        )}
       </div>
 
       <div className="mb-10 relative z-10">

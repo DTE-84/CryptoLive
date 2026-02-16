@@ -1,40 +1,32 @@
 import { useState, useEffect } from "react";
+import { io } from "socket.io-client";
 
-// Added = [] to ensure coinIds is never undefined
-export default function useCoinGeckoPrices(coinIds = []) {
+// Use environment variable or fallback to localhost
+const SOCKET_SERVER = import.meta.env.VITE_API_URL || "http://localhost:5000";
+
+export default function useCoinGeckoPrices() {
   const [prices, setPrices] = useState({});
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // 1. Check if it's an array. 2. Check if it has items.
-    if (!Array.isArray(coinIds) || coinIds.length === 0) {
+    const socket = io(SOCKET_SERVER);
+
+    socket.on("connect", () => {
+      console.log("Connected to Net_Worth_Protocol");
+    });
+
+    socket.on("priceUpdate", (data) => {
+      setPrices(data);
       setLoading(false);
-      return;
-    }
+    });
 
-    const fetchPrices = async () => {
-      try {
-        const ids = coinIds.join(",");
-       const res = await fetch(
-  `https://api.coingecko.com/api/v3/simple/price?ids=${ids}&vs_currencies=usd&include_24hr_change=true`
-);
-        const data = await res.json();
-        
-        // Only set prices if we actually got an object back
-        if (data && typeof data === 'object') {
-          setPrices(data);
-        }
-        setLoading(false);
-      } catch (err) {
-        console.error("Fetch error:", err);
-        setLoading(false);
-      }
-    };
+    socket.on("connect_error", () => {
+      console.error("Connection failed. Connection URL:", SOCKET_SERVER);
+      setLoading(false);
+    });
 
-    fetchPrices();
-    const interval = setInterval(fetchPrices, 60000);
-    return () => clearInterval(interval);
-  }, [JSON.stringify(coinIds)]); // Stringify ensures the effect only triggers when the actual list changes
+    return () => socket.disconnect();
+  }, []);
 
   return { prices, loading };
 }
