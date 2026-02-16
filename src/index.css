@@ -1,0 +1,24 @@
+/* index.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* Optional: dark mode setup */
+:root {
+  --bg-color: #f3f4f6;
+  --text-color: #1f2937;
+}
+
+.dark {
+  --bg-color: #1f2937;
+  --text-color: #f9fafb;
+}
+
+body {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+}
