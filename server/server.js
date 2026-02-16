@@ -20,7 +20,7 @@ app.use(cors());
 app.use(express.json());
 
 // Serve static files from the React app dist folder
-const frontendPath = path.join(__dirname, "../dist");
+const frontendPath = path.resolve(__dirname, "../dist");
 app.use(express.static(frontendPath));
 
 const COINS = ["bitcoin", "ethereum", "solana", "cardano", "polkadot"];
@@ -92,7 +92,7 @@ app.get("/api/history/:coin", async (req, res) => {
 
 // All other GET requests not handled will serve the React app
 app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "../dist/index.html"));
+  res.sendFile(path.resolve(__dirname, "../dist/index.html"));
 });
 
 /**
