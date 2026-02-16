@@ -30,6 +30,13 @@ console.log("NET_WORTH_TERMINAL STARTUP SEQUENCE");
 console.log(`Current Working Dir: ${ROOT_DIR}`);
 console.log(`Dist Path Target: ${DIST_PATH}`);
 console.log(`Index HTML Exists: ${fsSync.existsSync(INDEX_HTML)}`);
+if (fsSync.existsSync(DIST_PATH)) {
+  console.log(`Dist Contents: ${fsSync.readdirSync(DIST_PATH).join(", ")}`);
+  const assetsPath = path.join(DIST_PATH, "assets");
+  if (fsSync.existsSync(assetsPath)) {
+    console.log(`Assets Contents: ${fsSync.readdirSync(assetsPath).join(", ")}`);
+  }
+}
 console.log("-------------------------------------------");
 
 // Serve static files from the React app dist folder
