@@ -1,12 +1,14 @@
 import { useState, useEffect } from "react";
 
-const BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
-const API_URL = `${BASE_URL}/api/holdings`;
+// AUTO-DETECT: Use VITE_API_URL or fallback to current site origin
+const API_BASE = import.meta.env.VITE_API_URL || window.location.origin;
+const API_URL = `${API_BASE}/api/holdings`;
 
 export default function useHoldings() {
   const [holdings, setHoldings] = useState({});
   const [saving, setSaving] = useState(false);
 
+  // Fetch initial holdings
   useEffect(() => {
     fetch(API_URL)
       .then(res => res.json())
