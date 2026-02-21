@@ -14,13 +14,11 @@ export default function useCoinHistory(coinId) {
         const res = await fetch(`${BASE_URL}/api/history/${coinId}`);
         const data = await res.json();
         
-        // CoinGecko returns [timestamp, price] pairs in 'prices' array
         if (data && data.prices) {
           setHistory(data.prices.map(p => p[1]));
         }
         setLoading(false);
       } catch (err) {
-        console.error("Failed to fetch history for", coinId, err);
         setLoading(false);
       }
     };
