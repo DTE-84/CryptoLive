@@ -1,4 +1,3 @@
-// src/components/WatchlistSelector.jsx
 import React, { useState, useEffect } from "react";
 export default function WatchlistSelector({ availableCoins, selectedCoins, setSelectedCoins }) {
   const toggleCoin = (coin) => {

@@ -1,4 +1,3 @@
-/* index.css */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -7,7 +6,6 @@ html {
   scroll-behavior: smooth;
 }
 
-/* Optional: dark mode setup */
 :root {
   --bg-color: #f3f4f6;
   --text-color: #1f2937;
