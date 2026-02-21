@@ -1,15 +1,15 @@
 import { useState, useEffect } from "react";
 import { io } from "socket.io-client";
 
-const API_BASE = import.meta.env.VITE_API_URL || window.location.origin;
-const SOCKET_SERVER = API_BASE.replace("https://", "wss://").replace("http://", "ws://");
+const API_BASE = import.meta.env.VITE_API_URL || "";
 
 export default function useCoinGeckoPrices() {
   const [prices, setPrices] = useState({});
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const socket = io(API_BASE, {
+    // Passing empty string or no URL to io() makes it connect to the current origin
+    const socket = io(API_BASE || undefined, {
       transports: ["websocket", "polling"],
       reconnectionAttempts: 5,
       reconnectionDelay: 1000,

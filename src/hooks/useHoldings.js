@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-const API_BASE = import.meta.env.VITE_API_URL || window.location.origin;
+const API_BASE = import.meta.env.VITE_API_URL || "";
 const API_URL = `${API_BASE}/api/holdings`;
 
 export default function useHoldings() {
